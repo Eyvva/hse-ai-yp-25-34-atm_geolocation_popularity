@@ -14,7 +14,7 @@ Thanks goes to these wonderful people:
         <a href="https://github.com/Eyvva">
           <img src="https://avatars.githubusercontent.com/u/170970255?v=4" width="100px;" style="border-radius:50%;" alt=""/>
         <br /><sub><b>Olga Bichevina</b></sub>
-      </a><br />📝
+      </a><br />
      </td>
   </tr>
 </table>
