@@ -6,6 +6,18 @@
 ## 💖 Contributors
 
 Thanks goes to these wonderful people:
+<a href="https://github.com/Eyvva/hse-ai-yp-25-34-atm_geolocation_popularity/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Eyvva/cicd" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
+
+
+
+
+
+
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <table>
