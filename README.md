@@ -3,8 +3,18 @@
 
 ## Contributing
 
-See [Contributing](CONTRIBUTING.md) for details. Thanks to all the people who already contributed!
+## 💖 Contributors
 
-<a href="https://github.com/Eyvva/hse-ai-yp-25-34-atm_geolocation_popularity/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Eyvva/hse-ai-yp-25-34-atm_geolocation_popularity&max=750" />
-</a>
+Thanks goes to these wonderful people:
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Eyvva"><img src="https://avatars.githubusercontent.com/u/PUT_YOUR_ID?v=4" width="100px;" alt=""/><br /><sub><b>Eyvva</b></sub></a><br />
+      📝
+    </td>
+  </tr>
+</table>
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
