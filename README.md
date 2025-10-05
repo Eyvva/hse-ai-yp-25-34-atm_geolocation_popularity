@@ -7,7 +7,7 @@
 
 Thanks goes to these wonderful people:
 
-<a href="https://github.com/Eyvva/hse-ai-yp-25-34-atm_geolocation_popularity/graphs/contributors">
+<a href="https://github.com/Eyvva/hse-ai-yp-25-34-atm_geolocation_popularity">
   <img src="https://contrib.rocks/image?repo=Eyvva/cicd" />
 </a>
 
