@@ -1,0 +1,22 @@
+{
+  "projectName": "hse-ai-yp-25-34-atm_geolocation_popularity",
+  "projectOwner": "Eyvva",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Eyvva",
+      "name": "Eyvva",
+      "avatar_url": "https://avatars.githubusercontent.com/u/170970255?v=4",
+      "profile_url": "https://github.com/Eyvva",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ]
+}
