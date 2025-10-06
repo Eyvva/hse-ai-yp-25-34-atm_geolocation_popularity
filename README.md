@@ -59,5 +59,5 @@
 
 ---------------------------------------
 Проекты:
-1. Дорожная карта: https://github.com/users/Eyvva/projects/2/views/1
-2. Задачи по проекты: https://github.com/users/Eyvva/projects/1/views/1
+1. [Дорожная карта](https://github.com/users/Eyvva/projects/2/views/1)
+2. [Задачи по проекты](https://github.com/users/Eyvva/projects/1/views/1)
