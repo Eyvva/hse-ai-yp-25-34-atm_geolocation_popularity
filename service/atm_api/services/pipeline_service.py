@@ -10,7 +10,6 @@ from config import MODEL_PATH
 
 logger = logging.getLogger(__name__)
 
-
 class PipelineService:
     """Сервис для работы с обученным пайплайном"""
     
@@ -24,8 +23,8 @@ class PipelineService:
         """Загрузка пайплайна из файла"""
         try:
             saved_data = joblib.load(self.model_path)
-            self.pipeline = saved_data['pipeline']
-            self.feature_names = saved_data['feature_names']
+            self.pipeline = saved_data
+            # self.feature_names = saved_data['feature_names']
             
             logger.info(f"Пайплайн загружен из {self.model_path}")
             logger.info(f"Признаков: {len(self.feature_names)}")
@@ -42,19 +41,19 @@ class PipelineService:
         """Проверка готовности сервиса"""
         return self.pipeline is not None
     
-    def predict(self, lat: float, lon: float, atm_group: str, address_rus: str) -> float:
+    def predict(self, input_data: list) -> float:
         """Выполнение предсказания"""
         if not self.is_ready():
             raise ValueError("Пайплайн не загружен")
         
         try:
             # Подготавливаем данные
-            input_data = pd.DataFrame([{
-                'lat': lat,
-                'long': lon,  # используем long как в данных
-                'atm_group': atm_group,
-                'address_rus': address_rus
-            }])
+            # input_data = pd.DataFrame([{
+            #     'lat': lat,
+            #     'long': lon,  # используем long как в данных
+            #     'atm_group': atm_group,
+            #     'address_rus': address_rus
+            # }])
             
             # Делаем предсказание
             prediction = self.pipeline.predict(input_data)

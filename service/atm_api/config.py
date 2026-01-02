@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Пути
 BASE_DIR = Path(__file__).parent
-MODEL_PATH = BASE_DIR / "pipeline_model.pkl"
+MODEL_PATH = BASE_DIR / "project_model.pkl"
 
 # Настройки API
 API_TITLE = "ATM Popularity Prediction API"

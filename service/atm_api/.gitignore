@@ -3,7 +3,6 @@
 venv/
 
 # Модели и данные
-*.pkl
 *.pickle
 *.joblib
 *.db

@@ -1,10 +1,13 @@
 """Главное FastAPI приложение"""
 
 import logging
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 from config import (
     API_TITLE, API_DESCRIPTION, API_VERSION,
@@ -94,8 +97,14 @@ async def get_pipeline_info():
     info = pipeline_service.get_pipeline_info()
     return PipelineInfoResponse(**info)
 
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=400,
+        content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
+    )
 
-@app.post("/predict", response_model=PredictionResponse, tags=["Prediction"])
+@app.post("/forward", response_model=PredictionResponse, tags=["Prediction"])
 async def predict(data: AtmData):
     """Предсказание индекса популярности банкомата"""
     global request_count
@@ -114,10 +123,7 @@ async def predict(data: AtmData):
     try:
         # Выполняем предсказание
         prediction = pipeline_service.predict(
-            lat=data.lat,
-            lon=data.lon,
-            atm_group=data.atm_group,
-            address_rus=data.address_rus
+            [[data.atm_group, data.lat, data.lon]]
         )
         
         logger.info(f"Результат #{request_count}: {prediction:.4f}")
@@ -132,7 +138,7 @@ async def predict(data: AtmData):
         
     except Exception as e:
         logger.error(f"Ошибка #{request_count}: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=403, detail='модель не смогла обработать данные')
 
 
 # Запуск сервера
