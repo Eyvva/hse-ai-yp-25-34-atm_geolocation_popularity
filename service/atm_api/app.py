@@ -1,14 +1,17 @@
 """Главное FastAPI приложение"""
-
+from typing import Optional, Dict, Any
 import logging
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Depends, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-
+from typing import Annotated
+from sqlmodel import Field, Session, SQLModel, create_engine, select, JSON, Column
+from datetime import datetime
+import contextlib
 from config import (
     API_TITLE, API_DESCRIPTION, API_VERSION,
     HOST, PORT, RELOAD, LOG_LEVEL, LOG_FORMAT
@@ -33,12 +36,31 @@ async def lifespan(app: FastAPI):
     # Запуск
     logger.info("Запуск ATM Popularity API...")
     logger.info(f"Документация: http://{HOST}:{PORT}/docs")
+    SQLModel.metadata.create_all(engine)
     
     yield
     
     # Остановка
     logger.info("Остановка ATM Popularity API...")
 
+SQLModel.metadata.clear()
+
+class History(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    timestamp: str = Field(index=True)
+    content: Optional[Dict[str, Any]] = Field(default=None, sa_column=Column(JSON))
+
+sqlite_file_name = "history.db"
+sqlite_url = f"sqlite:///{sqlite_file_name}"
+
+connect_args = {"check_same_thread": False}
+engine = create_engine(sqlite_url, connect_args=connect_args)
+
+def get_session():
+    with Session(engine) as session:
+        yield session
+
+SessionDep = Annotated[Session, Depends(get_session)]
 
 # Создание приложения
 app = FastAPI(
@@ -53,18 +75,28 @@ app = FastAPI(
 # Настройка CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # В продакшене укажите конкретные домены
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# Зависимости
-def get_pipeline_service():
-    """Получение сервиса пайплайна"""
-    return pipeline_service
+@app.post("/history/")
+def create_history(history: History, session: SessionDep) -> History:
+    session.add(history)
+    session.commit()
+    session.refresh(history)
+    return history
 
+@app.get("/history/")
+def read_history(
+    session: SessionDep,
+    offset: int = 0,
+    limit: Annotated[int, Query(le=100)] = 100,
+) -> list[History]:
+    history = session.exec(select(History).offset(offset).limit(limit)).all()
+    return history
 
 # Эндпоинты
 @app.get("/", tags=["Root"])
@@ -105,7 +137,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     )
 
 @app.post("/forward", response_model=PredictionResponse, tags=["Prediction"])
-async def predict(data: AtmData):
+async def predict(data: AtmData, session: SessionDep):
     """Предсказание индекса популярности банкомата"""
     global request_count
     request_count += 1
@@ -125,9 +157,16 @@ async def predict(data: AtmData):
         prediction = pipeline_service.predict(
             [[data.atm_group, data.lat, data.lon]]
         )
+
+        history_entry = History(
+            timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
+            content={'lat': data.lat, 'lon': data.lon, 'atm_group': data.atm_group}
+        )
         
         logger.info(f"Результат #{request_count}: {prediction:.4f}")
-        
+
+        create_history(history_entry, session)
+
         return PredictionResponse(
             predicted_index=prediction,
             request_id=request_count,
