@@ -17,7 +17,7 @@ services:
 
   mlflow-service:
     # image: ghcr.io/mlflow/mlflow:v2.15.1
-    image: ghcr.io/mlflow/mlflow:v3.12.0
+    image: ghcr.io/mlflow/mlflow:v2.16.0
     env_file:
       - ./.env
     environment:

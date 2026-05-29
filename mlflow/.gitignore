@@ -1,0 +1,9 @@
+.DS_Store
+.venv
+data/minio_data/*
+!.gitkeep
+/files
+catboost_info
+.ipynb_checkpoints%
+mlflow_env
+.env
