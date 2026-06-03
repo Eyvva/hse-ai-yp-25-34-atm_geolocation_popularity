@@ -3,22 +3,6 @@
 
 ## Contributing
 
-## 💖 Contributors
-
-Thanks goes to these wonderful people:
-
-<a href="https://github.com/Eyvva">
-  <img src="https://contrib.rocks/image?repo=Eyvva/cicd"/>
-</a>
-<a href="https://github.com/Eyvva">
-  <img src="https://contrib.rocks/image?repo=Eyvva/cicd"/>
-</a>
-<a href="https://github.com/Eyvva">
-  <img src="https://contrib.rocks/image?repo=Eyvva/cicd"/>
-</a>
-<a href="https://github.com/Eyvva">
-  <img src="https://contrib.rocks/image?repo=Eyvva/cicd"/>
-</a>
 
 
 # 💳 Определение популярности геолокации для размещения банкомата
